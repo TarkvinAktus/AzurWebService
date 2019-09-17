@@ -1,0 +1,133 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Load Statistic</title>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+        <!-- CSS -->
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<body> 
+    <div class="content container">
+            <div class="row justify-content-md-center" >
+                <div class="col-lg-11 col-md-11 col-sm-11">
+                    <div class="container ">
+                        <div class="jumbotron jumbotron-fluid">
+                            <div class="container col-md-8">
+                                <h1 class="display-4 text-center">Web services load log</h1>
+                                <form method="GET" id="myform">
+                                    <div class="form-group">
+                                        <label for="formData">Date</label>
+                                        <div class="input-group" id="formData">
+                                            <input type="text" class="form-control" name="daterange" value="{{ url_param.daterange.0 }}" id="formDataInput"/>
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" name="group_date" value="true" id="formDataGroup">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formKeyName">Name</label>
+                                        <div class="input-group" id="formKeyName">
+                                            <input type="text" class="form-control" name="key_name" value="{{ url_param.key_name.0 }}" id="formKeyNameInput">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" name="group_name" value="true" id='formKeyNameGroup'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="formDomain">Domain</label>
+                                        <div class="input-group" id="formDomain">
+                                            <input type="text" class="form-control" name="domain" value="{{ url_param.domain.0 }}" id="formDomainInput">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" name="group_domain" value="true" id="formDomainGroup">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="formCode">Response code</label>
+                                            <div class="input-group" id="formCode">
+                                                <input type="text" class="form-control" name="status_code" value="{{ url_param.status_code.0 }}" id="formCodeInput">
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <input type="checkbox" name="group_status_code" value="true" id="formCodeGroup">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="formSizeInput">Size(byte)</label>
+                                            <input type="text" class="form-control" name="size" id="formSizeInput" value="{{ url_param.size.0 }}">
+                                    </div>
+                                </form>
+                                <div class="row justify-content-md-center" >
+                                    <input type="submit" form="myform" class="btn btn-info" value="Go">
+                                    <button class="btn btn-outline-secondary" id="clear">Clear</button>
+                                </div>
+                            </div>
+                            <p></p>
+                            <div class="container">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">URL</th>
+                                            <th scope="col">URL domain</th>
+                                            <th scope="col">Load time(ms)</th>
+                                            <th scope="col">Response code</th>
+                                            <th scope="col">Size(byte)</th>
+                                            {% if statisticsurl_list.0.total %}
+                                            <th scope="col">Total</th>
+                                            {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stat_item in statisticsurl_list %}
+                                        <tr>
+                                            <th scope="row">{{ stat_item.id }}</th>
+                                            <td>{{ stat_item.date_time }}</td>
+                                            <td>{{ stat_item.key_name }}</td>
+                                            <td>{{ stat_item.url }}</td>
+                                            <td>{{ stat_item.url_domain }}</td>
+                                            <td>{{ stat_item.load_time }}</td>
+                                            <td>{{ stat_item.status_code }}</td>
+                                            <td>{{ stat_item.byte_size }}</td>
+                                            {% if statisticsurl_list.0.total %}
+                                            <td>{{ stat_item.total }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+{# SCRIPTS #}
+<!-- JS datepicker-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script type="text/javascript" src="{% static 'js/dateTime.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/clean.js' %}"></script>
+
+
+</body>
+</html>
