@@ -27,7 +27,7 @@ class StatisticsUrlListView(ListView):
         return context_data
 
     def get_queryset(self):
-        queryset = StatisticsUrl.objects.all()
+        queryset = StatisticsUrl.objects.all().order_by('id')
         url_parameters = self.request.GET
 
         if url_parameters != {}:
@@ -44,6 +44,7 @@ class StatisticsUrlListView(ListView):
                 #Input in format YYYY-MM-DD
                 datetime_start = datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1]))
                 datetime_end = datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1])) + datetime.timedelta(days=1)
+                
                 queryset = queryset.filter(date_time__range=(datetime_start,datetime_end))
 
             # key filter
@@ -71,42 +72,43 @@ class StatisticsUrlListView(ListView):
 
             ### group filters ###
 
-            groupValues = []
-            countColumn = ''
-            groupDate = False
+            group_values = []
+            count_column = ''
+            group_by_date = False
 
             # group by date 
             group_date = url_parameters.get('group_date', None)
             if group_date == 'true':
-                
-                groupDate = True
-                
-                countColumn = 'date_time' 
+                group_by_date = True
+                group_values.append('day')
+                count_column = 'date_time' 
 
             # group by key name 
             group_name = url_parameters.get('group_name', None)
             if group_name == 'true':
-                groupValues.append('key_name')
-                countColumn = 'key_name'
+                group_values.append('key_name')
+                count_column = 'key_name'
 
             # group by domain
             group_domain = url_parameters.get('group_domain', None)
             if group_domain == 'true':
-                groupValues.append('url_domain')
-                countColumn = 'url_domain'
+                group_values.append('url_domain')
+                count_column = 'url_domain'
 
             # group by status_code 
             group_status_code = url_parameters.get('group_status_code', None)
             if group_status_code == 'true':
-                groupValues.append('status_code')
-                countColumn = 'status_code'
+                group_values.append('status_code')
+                count_column = 'status_code'
 
-            if countColumn != '':
-                if groupDate:
-                    groupValues.append('day')
-                    queryset = queryset.extra(select={'day': 'date( date_time )'}).values(*groupValues).annotate(total=Count(countColumn),byte_sum=Sum("byte_size")).order_by()
+            if count_column != '':
+                if group_by_date:
+                    queryset = queryset.extra(select={'day': 'date( date_time )'})\
+                        .values(*group_values).annotate(total=Count(count_column),byte_sum=Sum("byte_size"))\
+                        .order_by(group_values[0])
                 else:
-                    queryset = queryset.values(*groupValues).annotate(total=Count(countColumn),byte_sum=Sum("byte_size")).order_by()
+                    queryset = queryset.values(*group_values).annotate(total=Count(count_column),byte_sum=Sum("byte_size"))\
+                        .order_by(group_values[0])
 
         return queryset
 
