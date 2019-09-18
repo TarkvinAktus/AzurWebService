@@ -117,13 +117,17 @@
                                     {% for stat_item in statisticsurl_list %}
                                         <tr>
                                             <th scope="row">{{ stat_item.id }}</th>
-                                            <td>{{ stat_item.date_time |date:"M d, Y"}}</td>
+                                            <td>{{ stat_item.date_time |date:"M d, Y"}}
+                                                {% if statisticsurl_list.0.total %}
+                                                    {{stat_item.day}}
+                                                {% endif %}
+                                            </td>
                                             <td>{{ stat_item.key_name }}</td>
                                             <td>{{ stat_item.url }}</td>
                                             <td>{{ stat_item.url_domain }}</td>
                                             <td>{{ stat_item.load_time }}</td>
                                             <td>{{ stat_item.status_code }}</td>
-                                            <td>{{ stat_item.byte_size }}</td>
+                                            <td>{{ stat_item.byte_size }}{{ stat_item.byte_sum }}</td>
                                             {% if statisticsurl_list.0.total %}
                                             <td>{{ stat_item.total }}</td>
                                             {% endif %}

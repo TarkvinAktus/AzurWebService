@@ -4,7 +4,7 @@ import urllib.parse
 
 # django
 from django.views.generic import ListView
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.shortcuts import render
 from django.http import HttpResponse,HttpRequest
 from django.http import JsonResponse
@@ -73,11 +73,14 @@ class StatisticsUrlListView(ListView):
 
             groupValues = []
             countColumn = ''
+            groupDate = False
 
             # group by date 
             group_date = url_parameters.get('group_date', None)
             if group_date == 'true':
-                groupValues.append('date_time')
+                
+                groupDate = True
+                
                 countColumn = 'date_time' 
 
             # group by key name 
@@ -99,7 +102,11 @@ class StatisticsUrlListView(ListView):
                 countColumn = 'status_code'
 
             if countColumn != '':
-                queryset = queryset.values(*groupValues).annotate(total=Count(countColumn)).order_by()
+                if groupDate:
+                    groupValues.append('day')
+                    queryset = queryset.extra(select={'day': 'date( date_time )'}).values(*groupValues).annotate(total=Count(countColumn)).order_by()
+                else:
+                    queryset = queryset.values(*groupValues).annotate(total=Count(countColumn),byte_sum=Sum("byte_size")).order_by()
 
 
         return queryset
