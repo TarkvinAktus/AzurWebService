@@ -26,7 +26,11 @@
                                             <input type="text" class="form-control" name="daterange" value="{{ url_param.daterange.0 }}" id="formDataInput"/>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <input type="checkbox" name="group_date" value="true" id="formDataGroup">
+                                                    <input type="checkbox" name="group_date" value="true" id="formDataGroup" 
+                                                    {% if url_param.group_date.0 == 'true'%} 
+                                                    checked
+                                                    {% endif %}
+                                                    >
                                                 </div>
                                             </div>
                                         </div>
@@ -34,10 +38,16 @@
                                     <div class="form-group">
                                         <label for="formKeyName">Name</label>
                                         <div class="input-group" id="formKeyName">
-                                            <input type="text" class="form-control" name="key_name" value="{{ url_param.key_name.0 }}" id="formKeyNameInput">
+                                            <select class="custom-select" name="key_name" id="formKeyNameInput">
+                                                <option selected> --- </option>
+                                            </select>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <input type="checkbox" name="group_name" value="true" id='formKeyNameGroup'>
+                                                    <input type="checkbox" name="group_name" value="true" id='formKeyNameGroup'
+                                                    {% if url_param.group_name.0 == 'true'%} 
+                                                    checked
+                                                    {% endif %}
+                                                    >
                                                 </div>
                                             </div>
                                         </div>
@@ -46,10 +56,16 @@
                                     <div class="form-group">
                                         <label for="formDomain">Domain</label>
                                         <div class="input-group" id="formDomain">
-                                            <input type="text" class="form-control" name="domain" value="{{ url_param.domain.0 }}" id="formDomainInput">
+                                            <select class="custom-select" name="domain" id="formDomainInput">
+                                                <option selected> --- </option>
+                                            </select>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <input type="checkbox" name="group_domain" value="true" id="formDomainGroup">
+                                                    <input type="checkbox" name="group_domain" value="true" id="formDomainGroup"
+                                                    {% if url_param.group_domain.0 == 'true'%} 
+                                                    checked
+                                                    {% endif %}
+                                                    >
                                                 </div>
                                             </div>
                                         </div>
@@ -60,7 +76,11 @@
                                                 <input type="text" class="form-control" name="status_code" value="{{ url_param.status_code.0 }}" id="formCodeInput">
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
-                                                        <input type="checkbox" name="group_status_code" value="true" id="formCodeGroup">
+                                                        <input type="checkbox" name="group_status_code" value="true" id="formCodeGroup"
+                                                        {% if url_param.group_status_code.0 == 'true'%} 
+                                                        checked
+                                                        {% endif %}
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,7 +147,12 @@
 
 <script type="text/javascript" src="{% static 'js/dateTime.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/clean.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ajaxOptions.js' %}"></script>
 
-
+<script>
+    window.onload = function() {
+        loadOptions("{{url_options}}")
+    }
+</script>
 </body>
 </html>

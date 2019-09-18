@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'projectFolder.wsgi.application'
 
 
 DATABASES = {
-    ##insert DB info here
+    
 }
 
 # Password validation

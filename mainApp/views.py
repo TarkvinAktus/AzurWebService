@@ -6,6 +6,8 @@ import urllib.parse
 from django.views.generic import ListView
 from django.db.models import Count
 from django.shortcuts import render
+from django.http import HttpResponse,HttpRequest
+from django.http import JsonResponse
 
 # local django
 from mainApp.models import StatisticsUrl
@@ -19,6 +21,9 @@ class StatisticsUrlListView(ListView):
         context_data = super().get_context_data(**kwargs)
         url_parameters_dict = dict(self.request.GET.lists())
         context_data['url_param'] = url_parameters_dict
+
+        url_options = self.request.build_absolute_uri('/options/')
+        context_data['url_options'] = url_options
         return context_data
 
     def get_queryset(self):
@@ -41,17 +46,17 @@ class StatisticsUrlListView(ListView):
                 queryset = queryset.filter(date_time__range=(datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1])), datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1])+1)))
 
             # key filter
-            key_name = url_parameters['key_name']
+            key_name = url_parameters.get('key_name','')
             if key_name != '':
                 queryset = queryset.filter(key_name__contains = key_name)
 
             # domain filter
-            domain = url_parameters['domain']
+            domain = url_parameters.get('domain','')
             if domain != '':
                 queryset = queryset.filter(url_domain = domain)
 
             # code filter
-            status_code = url_parameters['status_code']
+            status_code = url_parameters.get('status_code','')
             if status_code != '':
                 if(status_code == '4XX'):
                     queryset = queryset.filter(status_code__lte=499).filter(status_code__gte=400)
@@ -59,7 +64,7 @@ class StatisticsUrlListView(ListView):
                     queryset = queryset.filter(status_code = int(status_code))
             
             # size filter
-            size = url_parameters['size']
+            size = url_parameters.get('size','')
             if size != '':
                 queryset = queryset.filter(byte_size__gte = int(size))
 
@@ -98,3 +103,8 @@ class StatisticsUrlListView(ListView):
 
         return queryset
 
+def options_upload(request):
+    queryset_key_name = StatisticsUrl.objects.values('key_name').distinct()
+    queryset_domain = StatisticsUrl.objects.values('url_domain').distinct()
+    json_qs = JsonResponse([list(queryset_domain),list(queryset_key_name)],safe=False)
+    return HttpResponse(json_qs, content_type='application/json')
