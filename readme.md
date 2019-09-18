@@ -7,6 +7,7 @@ To start this app you have to install
 ```
 python  v 3.7.3 
 psycopg2 v 2.8.3 (pip install psycopg2)
+dj-database-url (pip install dj-database-url)
 django v 2.2 (pip install django) 
 ```
 Estimated lead time - 16 hours
