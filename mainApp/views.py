@@ -41,9 +41,10 @@ class StatisticsUrlListView(ListView):
                 start_date = daterange[0].split('/')
                 end_date = daterange[1].split('/')
                 #GET in format MM-DD-YYYY
-                #Increment last argument to include last date in range in filter
-                #Input in format YYYY-MM-DD+1
-                queryset = queryset.filter(date_time__range=(datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1])), datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1])+1)))
+                #Input in format YYYY-MM-DD
+                datetime_start = datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1]))
+                datetime_end = datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1])) + datetime.timedelta(days=1)
+                queryset = queryset.filter(date_time__range=(datetime_start,datetime_end))
 
             # key filter
             key_name = url_parameters.get('key_name','')

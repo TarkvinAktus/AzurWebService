@@ -14,7 +14,7 @@
 <body> 
     <div class="content container">
             <div class="row justify-content-md-center" >
-                <div class="col-lg-11 col-md-11 col-sm-11">
+                <div class="col-lg-12 col-md-12 col-sm-11">
                     <div class="container ">
                         <div class="jumbotron jumbotron-fluid">
                             <div class="container col-md-8">
@@ -39,7 +39,7 @@
                                         <label for="formKeyName">Name</label>
                                         <div class="input-group" id="formKeyName">
                                             <select class="custom-select" name="key_name" id="formKeyNameInput">
-                                                <option selected> --- </option>
+                                                <option selected></option>
                                             </select>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
@@ -57,7 +57,7 @@
                                         <label for="formDomain">Domain</label>
                                         <div class="input-group" id="formDomain">
                                             <select class="custom-select" name="domain" id="formDomainInput">
-                                                <option selected> --- </option>
+                                                <option selected></option>
                                             </select>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <p></p>
-                            <div class="container">
+                            <div >
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -117,7 +117,7 @@
                                     {% for stat_item in statisticsurl_list %}
                                         <tr>
                                             <th scope="row">{{ stat_item.id }}</th>
-                                            <td>{{ stat_item.date_time }}</td>
+                                            <td>{{ stat_item.date_time |date:"M d, Y"}}</td>
                                             <td>{{ stat_item.key_name }}</td>
                                             <td>{{ stat_item.url }}</td>
                                             <td>{{ stat_item.url_domain }}</td>
