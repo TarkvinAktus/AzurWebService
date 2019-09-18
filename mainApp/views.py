@@ -104,10 +104,9 @@ class StatisticsUrlListView(ListView):
             if countColumn != '':
                 if groupDate:
                     groupValues.append('day')
-                    queryset = queryset.extra(select={'day': 'date( date_time )'}).values(*groupValues).annotate(total=Count(countColumn)).order_by()
+                    queryset = queryset.extra(select={'day': 'date( date_time )'}).values(*groupValues).annotate(total=Count(countColumn),byte_sum=Sum("byte_size")).order_by()
                 else:
                     queryset = queryset.values(*groupValues).annotate(total=Count(countColumn),byte_sum=Sum("byte_size")).order_by()
-
 
         return queryset
 
