@@ -40,10 +40,10 @@ class StatisticsUrlListView(ListView):
                 daterange = daterange.split('-')
                 start_date = daterange[0].split('/')
                 end_date = daterange[1].split('/')
-                #GET in format MM-DD-YYYY
+                #GET in format DD-MM-YYYY
                 #Input in format YYYY-MM-DD
-                datetime_start = datetime.datetime(int(start_date[2]), int(start_date[0]), int(start_date[1]))
-                datetime_end = datetime.datetime(int(end_date[2]), int(end_date[0]), int(end_date[1])) + datetime.timedelta(days=1)
+                datetime_start = datetime.datetime(int(start_date[2]), int(start_date[1]), int(start_date[0]))
+                datetime_end = datetime.datetime(int(end_date[2]), int(end_date[1]), int(end_date[0])) + datetime.timedelta(days=1)
                 
                 queryset = queryset.filter(date_time__range=(datetime_start,datetime_end))
 

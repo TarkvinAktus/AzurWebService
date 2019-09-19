@@ -19,11 +19,11 @@
                         <div class="jumbotron jumbotron-fluid">
                             <div class="container col-md-8">
                                 <h1 class="display-4 text-center">Web services load log</h1>
-                                <form method="GET" id="myform">
+                                <form method="GET" id="myform" autocomplete="off">
                                     <div class="form-group">
                                         <label for="formData">Date</label>
                                         <div class="input-group" id="formData">
-                                            <input type="text" class="form-control" name="daterange" value="{{ url_param.daterange.0 }}" id="formDataInput"/>
+                                            <input type="search" class="form-control" name="daterange" value="{{ url_param.daterange.0 }}" id="formDataInput" autocomplete="off" />
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <input type="checkbox" name="group_date" value="true" id="formDataGroup" 
@@ -117,7 +117,7 @@
                                     {% for stat_item in statisticsurl_list %}
                                         <tr>
                                             <th scope="row">{{ stat_item.id }}</th>
-                                            <td>{{ stat_item.date_time |date:"M d, Y"}}
+                                            <td>{{ stat_item.date_time |date:"d/m/y"}}
                                                 {% if statisticsurl_list.0.total %}
                                                     {{stat_item.day}}
                                                 {% endif %}
