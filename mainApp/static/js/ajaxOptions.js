@@ -9,7 +9,7 @@ function loadOptions(url){
             input_key = document.getElementById('formKeyNameInput')
             
             my_json[1].forEach(element => {
-                console.log(element['key_name']);
+                //console.log(element['key_name']);
                 var option = document.createElement('option');
                 option.value = element['key_name']
                 option.innerHTML = element['key_name']
@@ -18,10 +18,10 @@ function loadOptions(url){
 
             input_domain = document.getElementById('formDomainInput')
 
-            console.log(my_json)
+            //console.log(my_json)
 
             my_json[0].forEach(element => {
-                console.log(element['url_domain']);
+                //console.log(element['url_domain']);
                 var option = document.createElement('option');
                 option.value = element['url_domain']
                 option.innerHTML = element['url_domain']

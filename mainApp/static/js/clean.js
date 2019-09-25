@@ -1,5 +1,16 @@
 document.getElementById('clear').addEventListener('mouseup', clearAll, false)
 
+//If we gonna group by any parameters then add 'Total' column
+if (document.getElementById("formDataGroup").checked || document.getElementById("formKeyNameGroup").checked
+|| document.getElementById("formDomainGroup").checked || document.getElementById("formCodeGroup").checked){
+    console.log("FUCK!!")
+    var total_header = document.createElement('th');
+        total_header.scope = 'col';
+        total_header.innerHTML = 'Total';
+    document.getElementById('table_headers').append(total_header);
+};
+
+
 function clearAll(){
     document.getElementById('formDataInput').value = '';
     document.getElementById("formDataGroup").checked = false;

@@ -99,7 +99,7 @@
                             <div >
                                 <table class="table table-striped">
                                     <thead>
-                                        <tr>
+                                        <tr id="table_headers">
                                             <th scope="col">#</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Name</th>
@@ -108,9 +108,6 @@
                                             <th scope="col">Load time(ms)</th>
                                             <th scope="col">Response code</th>
                                             <th scope="col">Size(byte)</th>
-                                            {% if statisticsurl_list.0.total %}
-                                            <th scope="col">Total</th>
-                                            {% endif %}
                                         </tr>
                                     </thead>
                                     <tbody>

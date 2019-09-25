@@ -9,5 +9,6 @@ python  v 3.7.3
 psycopg2 v 2.8.3 (pip install psycopg2)
 dj-database-url (pip install dj-database-url)
 django v 2.2 (pip install django) 
+django_toolbar (pip install django-toolbar-debug)
 ```
 Estimated lead time - 16 hours
